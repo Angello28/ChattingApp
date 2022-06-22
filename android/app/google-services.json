@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "876262333419",
+    "project_id": "nocakochatapp",
+    "storage_bucket": "nocakochatapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876262333419:android:380f9bf2624dcbc78a97ae",
+        "android_client_info": {
+          "package_name": "com.example.chatting_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876262333419-ppu5c07g1c61862gar01474mt1pk8v61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGyraXDvbWC2Nmn5mjgMtE4XoacKhHb2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876262333419-ppu5c07g1c61862gar01474mt1pk8v61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876262333419:android:61adcfc34026ad0d8a97ae",
+        "android_client_info": {
+          "package_name": "com.example.nocako_chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876262333419-ppu5c07g1c61862gar01474mt1pk8v61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGyraXDvbWC2Nmn5mjgMtE4XoacKhHb2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876262333419-ppu5c07g1c61862gar01474mt1pk8v61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
