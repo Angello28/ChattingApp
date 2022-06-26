@@ -693,12 +693,6 @@ class UserTile extends StatefulWidget {
 
 class _UserTileState extends State<UserTile> with TickerProviderStateMixin{
 
-  getThemeFromPreferences() async{
-    Constants.myThemeName = (await ThemeGetterAndSetter.getThemeSharedPreferences())!;
-    Constants.myTheme = getTheme(Constants.myThemeName);
-    setState(() {});
-  }
-
   Widget selfChatAlert(){
     return AlertDialog(
       backgroundColor: Constants.myTheme.backgroundColor,
@@ -727,6 +721,12 @@ class _UserTileState extends State<UserTile> with TickerProviderStateMixin{
         ),
       ],
     );
+  }
+
+  getThemeFromPreferences() async{
+    Constants.myThemeName = (await ThemeGetterAndSetter.getThemeSharedPreferences())!;
+    Constants.myTheme = getTheme(Constants.myThemeName);
+    setState(() {});
   }
 
   @override

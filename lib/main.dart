@@ -33,8 +33,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if(!kIsWeb)
+    if(!kIsWeb) {
       configOneSignal();
+    }
   }
 
   void configOneSignal() => OneSignal.shared.setAppId(Constants.myOneSignalId);

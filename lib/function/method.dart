@@ -184,9 +184,7 @@ class StorageMethod{
 
   Future<String> uploadProfileImage(String id, XFile file, BuildContext context) async{
     var storageRef = storage.child('profile/${id}_profile_image');
-    var uploadTask = Responsive.isMobile(context) ?
-      storageRef.putFile(File(file.path), SettableMetadata(contentType: 'image/jpeg')) :
-      storageRef.putData(await file.readAsBytes(), SettableMetadata(contentType: 'image/jpeg'));
+    var uploadTask = storageRef.putData(await file.readAsBytes(), SettableMetadata(contentType: 'image/jpeg'));
     var completedTask = await Future.value(uploadTask);
     String downloadUrl = await completedTask.ref.getDownloadURL();
     return downloadUrl;

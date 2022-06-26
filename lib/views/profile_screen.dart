@@ -21,6 +21,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = false;
   TextEditingController usernameTextController = TextEditingController();
 
+  Widget blankNameAlert(){
+    return AlertDialog(
+      backgroundColor: Constants.myTheme.backgroundColor,
+      buttonPadding: Responsive.isDesktop(context) ? EdgeInsets.all(defaultWidth(context)/50) : EdgeInsets.only(right: defaultWidth(context)/10),
+      title: Text(
+        'Peringatan',
+        style: TextStyle(
+            color: Constants.myTheme.text2Color
+        ),
+      ),
+      content: Text(
+        'Nama tidak boleh kosong',
+        style: TextStyle(
+            color: Constants.myTheme.text2Color
+        ),
+      ),
+      actions: [
+        InkWell(
+          child: Text(
+            'Tutup',
+            style: TextStyle(
+                color: Constants.myTheme.buttonColor
+            ),
+          ),
+          onTap: () => Navigator.pop(context),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -183,13 +213,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         content: TextField(
+                          maxLength: 25,
+                          maxLines: 1,
                           controller: usernameTextController,
                           style: TextStyle(
-                              color: Constants.myTheme.text2Color
+                            color: Constants.myTheme.text2Color
                           ),
                           decoration: InputDecoration(
+                            counterStyle: TextStyle(color: Constants.myTheme.text2Color),
                             enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Constants.myTheme.borderColor)
+                              borderSide: BorderSide(color: Constants.myTheme.borderColor)
                             ),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Constants.myTheme.buttonColor)
@@ -214,12 +247,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             onTap: () async{
-                              UserMethod().updateUserName(Constants.myId, usernameTextController.text);
-                              HelperFunction.saveUserNameSharedPreference(usernameTextController.text);
-                              setState(() {
-                                Constants.myName = usernameTextController.text;
-                              });
-                              Navigator.pop(context);
+                              if(usernameTextController.text.isEmpty){
+                                showDialog(
+                                  context: context,
+                                  builder: (context){
+                                    return blankNameAlert();
+                                  }
+                                );
+                              }
+                              else{
+                                UserMethod().updateUserName(Constants.myId, usernameTextController.text);
+                                HelperFunction.saveUserNameSharedPreference(usernameTextController.text);
+                                setState(() {
+                                  Constants.myName = usernameTextController.text;
+                                });
+                                Navigator.pop(context);
+                              }
                             },
                           ),
                         ],

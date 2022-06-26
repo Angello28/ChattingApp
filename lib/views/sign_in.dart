@@ -57,6 +57,8 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
           HelperFunction.saveUserEmailSharedPreference(emailTextController.text);
           HelperFunction.saveUserProfileImageSharedPreference(userInfo.docs[0]['profileImg']);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+
+          print("Token Id: " + tokenId);
         }
         else{
           setState(() {
@@ -190,22 +192,6 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(height: defaultHeight(context)/30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: (){},
-                              child: Text(
-                                'Lupa kata sandi?',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  color: Constants.myTheme.text2Color
-                                )
-                              ),
-                            ),
-                          ],
                         ),
                         SizedBox(height: defaultHeight(context)/30),
                         ElevatedButton(
@@ -349,18 +335,6 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(height: defaultHeight(context)/30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: (){},
-                              child: Text('Lupa kata sandi?', textAlign: TextAlign.end, style: TextStyle(
-                                color: Constants.myTheme.text2Color)
-                              ),
-                            ),
-                          ],
                         ),
                         SizedBox(height: defaultHeight(context)/30),
                         ElevatedButton(

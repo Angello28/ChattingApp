@@ -149,11 +149,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
       playerIds: tokenIdList,
       content: contents,
       heading: heading,
-      androidSmallIcon: "@drawable/logo",
     );
 
     var response = await OneSignal.shared.postNotification(notification);
-    print("Sent notification with response: $response");
+    setState((){
+      print("Sent notification with response: $response");
+    });
   }
 
   @override
@@ -302,7 +303,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
                               borderRadius: BorderRadius.all(Radius.circular(30)),
                               borderSide: BorderSide(color: Constants.myTheme.buttonColor)
                             ),
-                            hintText: 'Message', hintStyle: TextStyle(color: Constants.myTheme.text2Color)
+                            hintText: 'Pesan', hintStyle: TextStyle(color: Constants.myTheme.text2Color)
                           ),
                           enabled: true,
                         ),
