@@ -124,6 +124,10 @@ class UserMethod{
       .doc(chatRoomId).update({'recentTimeStamp': messageMap['timestamp']});
   }
 
+  storeChat(messageMap) {
+    FirebaseFirestore.instance.collection('MessageData').add(messageMap);
+  }
+
   deleteChatMessages(String chatRoomId){
     FirebaseFirestore.instance.collection('chatroom').doc(chatRoomId).collection('chats').get().then((value) {
       for(DocumentSnapshot ds in value.docs){
