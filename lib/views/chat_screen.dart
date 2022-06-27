@@ -40,96 +40,67 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
     setState(() {});
   }
 
-  // checkMessageContext(String pesan) async {
-  //   final response = await http.post(
-  //     Uri.parse('http://f707-210-210-128-130.ngrok.io/sendmessage'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       'isipesan': pesan,
-  //     }),
-  //   );
-  //   return response.body;
-  // }
-  //
-  // SendMessage(String status) async{
-  //   print("Fungsi dijalankan");
-  //   if(messageTextController.text.isNotEmpty && messageTextController.text.trim().length > 0) {
-  //     String temp = await checkMessageContext(messageTextController.text);
-  //     print("Temp: $temp");
-  //     var decode = jsonDecode(temp);
-  //     var hasil = int.parse(decode['hasil prediksi']);
-  //     print("Decode: ${hasil}");
-  //     if (hasil == 0) {
-  //       print("Hasil Prediksi: $decode['hasil prediksi']");
-  //       Map<String, dynamic> messageMap = {
-  //         'message': messageTextController.text,
-  //         'sendBy': Constants.myId,
-  //         'timestamp': DateTime
-  //             .now()
-  //             .microsecondsSinceEpoch,
-  //         'isRead': false
-  //       };
-  //       userMethod.addChatMessages(widget.chatRoomId, messageMap);
-  //       if (status == "offline")
-  //         sendNotification(
-  //             [widget.tokenId], messageTextController.text, Constants.myName);
-  //     }
-  //     else if(hasil == 1){
-  //       print("Hasil Prediksi: $decode['hasil prediksi']");
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           backgroundColor: Constants.myTheme.buttonColor,
-  //           content: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //             children: [
-  //               Text('Pesan ini mengandung makna kasar', textAlign: TextAlign.center),
-  //               InkWell(
-  //                 onTap: ()=> ScaffoldMessenger.of(context).clearSnackBars(),
-  //                 child: Icon(
-  //                   Icons.cancel,
-  //                   color: Colors.white,
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //           behavior: SnackBarBehavior.floating,
-  //           elevation: 0,
-  //           shape: new RoundedRectangleBorder(
-  //               borderRadius: new BorderRadius.circular(30.0)
-  //           ),
-  //           width: defaultWidth(context)/1.2,
-  //           animation: CurvedAnimation(
-  //               parent: AnimationController(duration: const Duration(seconds: 1), vsync: this),
-  //               curve: Curves.linear
-  //           ),
-  //         ),
-  //       );
-  //     }
-  //   }
-  //   else
-  //     print('Gagal');
-  //   messageTextController.text = "";
-  // }
+  checkMessageContext(String pesan) async {
+    final response = await http.post(
+      Uri.parse('http://f707-210-210-128-130.ngrok.io/sendmessage'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'isipesan': pesan,
+      }),
+    );
+    return response.body;
+  }
 
-  SendMessage() async{
-    print("Fungsi dijalankan");
+  // ignore: non_constant_identifier_names
+  ProfanityCheck() async{
     if(messageTextController.text.isNotEmpty && messageTextController.text.trim().length > 0) {
-      Map<String, dynamic> messageMap = {
-        'message': messageTextController.text,
-        'sendBy': Constants.myId,
-        'timestamp': DateTime
-            .now()
-            .microsecondsSinceEpoch,
-        'isRead': false
-      };
-      userMethod.addChatMessages(widget.chatRoomId, messageMap);
-      sendNotification([widget.tokenId], messageTextController.text, Constants.myName);
+      String temp = await checkMessageContext(messageTextController.text);
+      print("Temp: $temp");
+      var decode = jsonDecode(temp);
+      var hasil = int.parse(decode['hasil prediksi']);
+      print("Decode: ${hasil}");
+      if(Constants.myProfanitySetting == "Sensor"){
+        //Fungsi sensor
+      }
+      else{
+        if (hasil == 0) {
+          print("Hasil Prediksi: $decode['hasil prediksi']");
+          SendMessage();
+        }
+        else if(hasil == 1){
+          print("Hasil Prediksi: $decode['hasil prediksi']");
+          showDialog(
+            context: context,
+            builder: (context){
+              return SizedBox(
+                height: defaultHeight(context)/20,
+                child: profanityChatAlert()
+              );
+            }
+          );
+        }
+      }
     }
-    else
+    else {
       print('Gagal');
-      messageTextController.text = "";
+    }
+    messageTextController.text = "";
+  }
+
+  // ignore: non_constant_identifier_names
+  SendMessage(){
+    Map<String, dynamic> messageMap = {
+      'message': messageTextController.text,
+      'sendBy': Constants.myId,
+      'timestamp': DateTime
+          .now()
+          .microsecondsSinceEpoch,
+      'isRead': false
+    };
+    userMethod.addChatMessages(widget.chatRoomId, messageMap);
+    sendNotification([widget.tokenId], messageTextController.text, Constants.myName);
   }
 
   // ignore: non_constant_identifier_names
@@ -162,6 +133,36 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
     HelperFunction.saveIsInChatRoomSharedPreference(true);
     AutoScroll(scrollController);
     super.initState();
+  }
+
+  Widget profanityChatAlert(){
+    return AlertDialog(
+      backgroundColor: Constants.myTheme.backgroundColor,
+      buttonPadding: Responsive.isDesktop(context) ? EdgeInsets.all(defaultWidth(context)/50) : EdgeInsets.only(right: defaultWidth(context)/10),
+      title: Text(
+        'Peringatan',
+        style: TextStyle(
+            color: Constants.myTheme.text2Color
+        ),
+      ),
+      content: Text(
+        'Pesan anda mengandung makna kasar',
+        style: TextStyle(
+            color: Constants.myTheme.text2Color
+        ),
+      ),
+      actions: [
+        InkWell(
+          child: Text(
+            'Tutup',
+            style: TextStyle(
+                color: Constants.myTheme.buttonColor
+            ),
+          ),
+          onTap: () => Navigator.pop(context),
+        ),
+      ],
+    );
   }
 
   Widget interlocutorUserName(bool isLoading, String name){
@@ -316,7 +317,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
                         ),
                         child: IconButton(
                           onPressed: (){
-                            SendMessage();
+                            ProfanityCheck();
                             AutoScroll(scrollController);
                           },
                           icon: Icon(Icons.send, color: Constants.myTheme.text1Color),

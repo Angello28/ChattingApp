@@ -1,4 +1,5 @@
 import 'package:chatting_app/components/responsive.dart';
+import 'package:chatting_app/function/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:chatting_app/components/const.dart';
@@ -16,8 +17,6 @@ class _ProfanitySettingScreenState extends State<ProfanitySettingScreen> {
     ["Pencegahan", "Pesan yang mengandung kata kasar akan dicegah untuk dikirim"],
     ["Sensor", "Kata kasar akan disensor saat ditampilkan di bagian obrolan"]
   ];
-
-  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +46,18 @@ class _ProfanitySettingScreenState extends State<ProfanitySettingScreen> {
                 return ListTile(
                   onTap: () async{
                     setState((){
-                      _index = index;
-                      print(_index);
+                      HelperFunction.saveProfanitySettingSharedPreference(profanitySettingList[index][0]);
                     });
+                    Constants.myProfanitySetting = (await HelperFunction.getProfanitySettingSharedPreference())!;
                   },
                   trailing: Radio(
                     value: profanitySettingList[index][0],
-                    groupValue: profanitySettingList[_index][0],
+                    groupValue: Constants.myProfanitySetting == "" ? "Pencegahan" : Constants.myProfanitySetting,
                     onChanged: (val) async{
                       setState((){
-                        _index = index;
-                        print(_index);
+                        HelperFunction.saveProfanitySettingSharedPreference(profanitySettingList[index][0]);
                       });
+                      Constants.myProfanitySetting = (await HelperFunction.getProfanitySettingSharedPreference())!;
                     },
                     activeColor: Constants.myTheme.buttonColor,
                   ),

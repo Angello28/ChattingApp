@@ -7,6 +7,7 @@ class HelperFunction{
   static String sharedPreferenceUserEmailKey = "USEREMAILKEY";
   static String sharedPreferenceUserProfileImageKey = "USERPROFILEIMAGEKEY";
   static String sharedPreferenceUserIsInChatRoomKey = "ISINCHATROOM";
+  static String sharedPreferenceProfanitySettingKey = "USERPROFANITYKEY";
 
   static Future<bool> saveUserIdSharedPreference(String userId) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,6 +39,11 @@ class HelperFunction{
     return await prefs.setBool(sharedPreferenceUserIsInChatRoomKey, isInChatRoom);
   }
 
+  static Future<bool> saveProfanitySettingSharedPreference(String profanitySetting) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(sharedPreferenceProfanitySettingKey, profanitySetting);
+  }
+
   static Future<String?> getUserIdSharedPreference() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(sharedPreferenceUserIdKey);
@@ -66,5 +72,10 @@ class HelperFunction{
   static Future<bool?> getIsInChatRoomSharedPreference() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(sharedPreferenceUserIsInChatRoomKey);
+  }
+
+  static Future<String?> getProfanitySettingSharedPreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(sharedPreferenceProfanitySettingKey);
   }
 }
