@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   getLoggedInState() async{
     await HelperFunction.getUserLoggedInSharedPreference().then((value){
       setState(() {
-        isLoggedIn = value == null? false : value;
+        isLoggedIn = value ?? false;
       });
       pushPage();
     });
@@ -39,10 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
       });
     }
-    else
+    else {
       Timer(Duration(seconds: 1), (){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignIn()));
       });
+    }
   }
 
   @override

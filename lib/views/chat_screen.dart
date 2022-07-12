@@ -47,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   checkMessageContext(String pesan) async {
     final response = await http.post(
-      Uri.parse('http://e56b-180-241-46-141.ngrok.io/sendmessage'),
+      Uri.parse('http://fa21-101-128-75-96.ngrok.io/sendmessage'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Access-Control-Allow-Origin": "*",
@@ -67,17 +67,18 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       print("Temp: $temp");
       var decode = jsonDecode(temp);
       var hasil = int.parse(decode['hasil prediksi']);
+      var value = double.parse(decode['value']).toStringAsFixed(2);
       print("Decode: ${hasil}");
       if (Constants.myProfanitySetting == "Sensor") {
         //Fungsi sensor
-        storeMessageData(hasil, messageTextController.text);
+        storeMessageData(hasil, messageTextController.text, value);
         if (hasil == 1) {
           messageTextController.text = decode['hasil_pesan'];
           print("Hasil Prediksi: $decode['hasil prediksi']");
         }
         SendMessage();
       } else {
-        storeMessageData(hasil, messageTextController.text);
+        storeMessageData(hasil, messageTextController.text, value);
         if (hasil == 0) {
           print("Hasil Prediksi: $decode['hasil prediksi']");
           SendMessage();
@@ -111,10 +112,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         [widget.tokenId], messageTextController.text, Constants.myName);
   }
 
-  storeMessageData(int prediction, String message) {
+  storeMessageData(int prediction, String message, String value) {
+
     Map<String, dynamic> messageMap = {
       'correction': prediction,
       'created_at': DateTime.now().toLocal(),
+      'value' : value,
       'label': prediction,
       'message': messageTextController.text,
     };
