@@ -27,8 +27,8 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
   UserMethod userMethod = new UserMethod();
 
   final formKey = GlobalKey<FormState>();
-  TextEditingController emailTextController = new TextEditingController();
-  TextEditingController passwordTextController = new TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
 
   getThemeFromPreferences() async{
     Constants.myThemeName = (await ThemeGetterAndSetter.getThemeSharedPreferences())!;
@@ -58,7 +58,7 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
           HelperFunction.saveUserProfileImageSharedPreference(userInfo.docs[0]['profileImg']);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
 
-          print("Token Id: " + tokenId);
+          print("Token Id: $tokenId");
         }
         else{
           setState(() {
@@ -69,10 +69,10 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text('Pengguna tidak ditemukan', textAlign: TextAlign.center),
+                    const Text('Pengguna tidak ditemukan', textAlign: TextAlign.center),
                     InkWell(
                       onTap: ()=> ScaffoldMessenger.of(context).clearSnackBars(),
-                      child: Icon(
+                      child: const Icon(
                         Icons.cancel,
                         color: Colors.white,
                       ),
@@ -81,8 +81,8 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
                 ),
                 behavior: SnackBarBehavior.floating,
                 elevation: 0,
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)
                 ),
                 width: defaultWidth(context)/2,
                 animation: CurvedAnimation(
@@ -199,7 +199,7 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin{
                           style: ElevatedButton.styleFrom(
                             primary: Constants.myTheme.buttonColor,
                             textStyle: TextStyle(fontSize: defaultHeight(context)/40),
-                            shape: new RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0),),
                             minimumSize: Size(
                               defaultWidth(context)>=650 && defaultWidth(context)<1024 ?
